@@ -2,14 +2,18 @@ package com.example.inspiringpeople.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.inspiringpeople.InspiringPeopleRepository
+import com.example.inspiringpeople.database.InspiringPeopleDatabaseBuilder
+import com.example.inspiringpeople.database.InspiringPeopleRepository
+import com.example.inspiringpeople.database.InspiringPersonDao
 import com.example.inspiringpeople.databinding.ActivityNewInspiringPersonBinding
 import com.example.inspiringpeople.model.InspiringPerson
 
 class NewInspiringPersonActivity : AppCompatActivity(){
 
     private lateinit var newInspiringPersonBinding: ActivityNewInspiringPersonBinding
-    private val inspiringPeopleRepository = InspiringPeopleRepository
+    private val inspiringPeopleRepository: InspiringPersonDao by lazy {
+        InspiringPeopleDatabaseBuilder.getInstance().inspiringPersonDao()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +35,7 @@ class NewInspiringPersonActivity : AppCompatActivity(){
         quotes.add(firstQuote)
         quotes.add(secondQuote)
 
-        val inspiringPerson = InspiringPerson(name, date, details, imageUrl, quotes)
+        val inspiringPerson = InspiringPerson(0, name, date, details, imageUrl, quotes)
         inspiringPeopleRepository.insert(inspiringPerson)
         finish()
     }

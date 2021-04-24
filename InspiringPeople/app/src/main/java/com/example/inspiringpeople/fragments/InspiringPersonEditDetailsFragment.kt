@@ -6,14 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.inspiringpeople.InspiringPeopleRepository
+import com.example.inspiringpeople.database.InspiringPeopleDatabaseBuilder
+import com.example.inspiringpeople.database.InspiringPeopleRepository
+import com.example.inspiringpeople.database.InspiringPersonDao
 import com.example.inspiringpeople.databinding.FragmentInspiringPersonEditDetailsBinding
 import com.example.inspiringpeople.model.InspiringPerson
 
 class InspiringPersonEditDetailsFragment : Fragment() {
 
     lateinit var inspiringPersonEditDetailsBinding: FragmentInspiringPersonEditDetailsBinding
-    private val inspiringPeopleRepository = InspiringPeopleRepository
+    private val inspiringPeopleRepository: InspiringPersonDao by lazy {
+        InspiringPeopleDatabaseBuilder.getInstance().inspiringPersonDao()
+    }
 
     companion object{
         const val TAG = "EditDetails"

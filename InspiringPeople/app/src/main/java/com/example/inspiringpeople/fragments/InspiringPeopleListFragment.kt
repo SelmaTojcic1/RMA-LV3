@@ -7,16 +7,20 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.inspiringpeople.InspiringPeopleRepository
 import com.example.inspiringpeople.OnInspiringPersonSelectedListener
 import com.example.inspiringpeople.R
 import com.example.inspiringpeople.adapters.InspiringPeopleAdapter
+import com.example.inspiringpeople.database.InspiringPeopleDatabaseBuilder
+import com.example.inspiringpeople.database.InspiringPeopleRepository
+import com.example.inspiringpeople.database.InspiringPersonDao
 import com.example.inspiringpeople.databinding.FragmentInspiringPeopleListBinding
 
 class InspiringPeopleListFragment: Fragment() {
 
     private lateinit var  inspiringPeopleListBinding: FragmentInspiringPeopleListBinding
-    private val inspiringPeopleRepository = InspiringPeopleRepository
+    private val inspiringPeopleRepository: InspiringPersonDao by lazy {
+        InspiringPeopleDatabaseBuilder.getInstance().inspiringPersonDao()
+    }
     private lateinit var  onInspiringInspiringPersonSelectedListener: OnInspiringPersonSelectedListener
 
     companion object {
@@ -63,7 +67,8 @@ class InspiringPeopleListFragment: Fragment() {
             false
         )
         inspiringPeopleListBinding.rvInspiringPeople.adapter =
-            InspiringPeopleAdapter(inspiringPeopleRepository.getInspiringPeople(), onInspiringInspiringPersonSelectedListener)
+            InspiringPeopleAdapter(inspiringPeopleRepository.getInspiringPeople(),
+                onInspiringInspiringPersonSelectedListener)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

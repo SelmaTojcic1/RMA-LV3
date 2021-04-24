@@ -7,9 +7,11 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.example.inspiringpeople.GlideApp
-import com.example.inspiringpeople.InspiringPeopleRepository
 import com.example.inspiringpeople.OnInspiringPersonEditDetailsSelectedListener
 import com.example.inspiringpeople.R
+import com.example.inspiringpeople.database.InspiringPeopleDatabaseBuilder
+import com.example.inspiringpeople.database.InspiringPeopleRepository
+import com.example.inspiringpeople.database.InspiringPersonDao
 import com.example.inspiringpeople.databinding.FragmentInspiringPersonDetailsBinding
 import com.example.inspiringpeople.model.InspiringPerson
 
@@ -17,7 +19,9 @@ import com.example.inspiringpeople.model.InspiringPerson
 class InspiringPersonDetailsFragment : Fragment(){
 
     lateinit var inspiringPersonDetailsBinding: FragmentInspiringPersonDetailsBinding
-    private val inspiringPeopleRepository = InspiringPeopleRepository
+    private val inspiringPeopleRepository: InspiringPersonDao by lazy {
+        InspiringPeopleDatabaseBuilder.getInstance().inspiringPersonDao()
+    }
     private lateinit var onInspiringPersonEditDetailsSelectedListener:
             OnInspiringPersonEditDetailsSelectedListener
 
@@ -60,7 +64,7 @@ class InspiringPersonDetailsFragment : Fragment(){
             inspiringPersonDetailsBinding.btnEditInformation.setOnClickListener {
                 onInspiringPersonEditDetailsSelectedListener
                         .onInspiringPersonEditDetailsSelected(
-                                inspiringPeopleRepository.getInspiringPerson(inspiringPerson.name))
+                                inspiringPeopleRepository.getInspiringPerson(inspiringPerson.id))
             }
         }
 
