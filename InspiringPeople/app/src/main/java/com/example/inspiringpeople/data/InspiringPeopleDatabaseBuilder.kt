@@ -1,4 +1,4 @@
-package com.example.inspiringpeople.database
+package com.example.inspiringpeople.data
 
 import androidx.room.Room
 import com.example.inspiringpeople.InspiringPeopleApp
@@ -18,9 +18,11 @@ object InspiringPeopleDatabaseBuilder {
 
     private fun buildDatabase(): InspiringPeopleDatabase {
         return Room.databaseBuilder(
-            InspiringPeopleApp.application, InspiringPeopleDatabase::class.java, InspiringPeopleDatabase.NAME
-        )
-            .allowMainThreadQueries()
-            .build()
+            InspiringPeopleApp.application, InspiringPeopleDatabase::class.java,
+                InspiringPeopleDatabase.NAME)
+
+                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
+                .build()
     }
 }

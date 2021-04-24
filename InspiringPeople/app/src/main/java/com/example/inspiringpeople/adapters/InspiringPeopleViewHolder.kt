@@ -23,9 +23,13 @@ class InspiringPeopleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVi
             .centerCrop()
             .into(itemInspiringPersonBinding.ivInspiringPersonItemPhoto)
 
+        var quotesList: MutableList<String> = mutableListOf()
+        quotesList.add(inspiringPerson.firstQuote)
+        quotesList.add(inspiringPerson.secondQuote)
+
         itemInspiringPersonBinding.ivInspiringPersonItemPhoto.setOnClickListener {
             Toast.makeText(itemInspiringPersonBinding.ivInspiringPersonItemPhoto.context,
-                    inspiringPerson.quotesList.random(),
+                    quotesList.random(),
                     Toast.LENGTH_SHORT).show()
         }
     }

@@ -33,7 +33,9 @@ class InspiringPeopleAdapter(
     override fun onBindViewHolder(holder: InspiringPeopleViewHolder, position: Int) {
         val inspiringPerson = inspiringPeople[position]
         holder.bind(inspiringPerson)
-        holder.itemView.setOnClickListener {listenerInspiring.onInspiringPersonSelected(inspiringPerson)}
+        holder.itemView.setOnClickListener {
+            listenerInspiring.onInspiringPersonSelected(inspiringPerson)
+        }
     }
 
     override fun getItemCount(): Int = inspiringPeople.size

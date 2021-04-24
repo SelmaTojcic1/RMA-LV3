@@ -11,6 +11,7 @@ data class InspiringPerson (
         @ColumnInfo(name = "name") var name: String,
         @ColumnInfo(name = "date") var date: String,
         @ColumnInfo(name = "details") var details: String,
-        @ColumnInfo(name = "image") var imageUrl: String,
-        @ColumnInfo(name = "quotes") val quotesList: MutableList<String>
+        @ColumnInfo(name = "imageUrl") var imageUrl: String,
+        @ColumnInfo(name = "firstQuote") val firstQuote: String,
+        @ColumnInfo(name= "secondQuote") val secondQuote: String
     ) : Serializable

@@ -10,18 +10,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.inspiringpeople.OnInspiringPersonSelectedListener
 import com.example.inspiringpeople.R
 import com.example.inspiringpeople.adapters.InspiringPeopleAdapter
-import com.example.inspiringpeople.database.InspiringPeopleDatabaseBuilder
-import com.example.inspiringpeople.database.InspiringPeopleRepository
-import com.example.inspiringpeople.database.InspiringPersonDao
+import com.example.inspiringpeople.data.InspiringPeopleDatabaseBuilder
+import com.example.inspiringpeople.data.InspiringPeopleRepository
 import com.example.inspiringpeople.databinding.FragmentInspiringPeopleListBinding
 
 class InspiringPeopleListFragment: Fragment() {
 
     private lateinit var  inspiringPeopleListBinding: FragmentInspiringPeopleListBinding
-    private val inspiringPeopleRepository: InspiringPersonDao by lazy {
-        InspiringPeopleDatabaseBuilder.getInstance().inspiringPersonDao()
-    }
-    private lateinit var  onInspiringInspiringPersonSelectedListener: OnInspiringPersonSelectedListener
+    private val inspiringPersonDao =
+            InspiringPeopleDatabaseBuilder.getInstance().inspiringPersonDao()
+    private val inspiringPeopleRepository = InspiringPeopleRepository(inspiringPersonDao)
+    private lateinit var onInspiringInspiringPersonSelectedListener:
+            OnInspiringPersonSelectedListener
 
     companion object {
         const val TAG = "List"
@@ -89,11 +89,10 @@ class InspiringPeopleListFragment: Fragment() {
                 .setPositiveButton("Yes") { _, _ ->
                         inspiringPeopleRepository.deleteAll()
                 }
-                .setNegativeButton("No", DialogInterface.OnClickListener { dialog, _ ->
+                .setNegativeButton("No") { dialog, _ ->
                     dialog.cancel()
-                })
+                }
                 .create()
                 .show()
         }
-
 }

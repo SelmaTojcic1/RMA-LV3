@@ -9,9 +9,8 @@ import androidx.fragment.app.Fragment
 import com.example.inspiringpeople.GlideApp
 import com.example.inspiringpeople.OnInspiringPersonEditDetailsSelectedListener
 import com.example.inspiringpeople.R
-import com.example.inspiringpeople.database.InspiringPeopleDatabaseBuilder
-import com.example.inspiringpeople.database.InspiringPeopleRepository
-import com.example.inspiringpeople.database.InspiringPersonDao
+import com.example.inspiringpeople.data.InspiringPeopleDatabaseBuilder
+import com.example.inspiringpeople.data.InspiringPeopleRepository
 import com.example.inspiringpeople.databinding.FragmentInspiringPersonDetailsBinding
 import com.example.inspiringpeople.model.InspiringPerson
 
@@ -19,9 +18,10 @@ import com.example.inspiringpeople.model.InspiringPerson
 class InspiringPersonDetailsFragment : Fragment(){
 
     lateinit var inspiringPersonDetailsBinding: FragmentInspiringPersonDetailsBinding
-    private val inspiringPeopleRepository: InspiringPersonDao by lazy {
-        InspiringPeopleDatabaseBuilder.getInstance().inspiringPersonDao()
-    }
+    private val inspiringPersonDao =
+            InspiringPeopleDatabaseBuilder.getInstance().inspiringPersonDao()
+    private val inspiringPeopleRepository = InspiringPeopleRepository(inspiringPersonDao)
+
     private lateinit var onInspiringPersonEditDetailsSelectedListener:
             OnInspiringPersonEditDetailsSelectedListener
 
@@ -100,11 +100,11 @@ class InspiringPersonDetailsFragment : Fragment(){
 
             builder.setTitle("Are you sure you want to delete this person?")
                     .setPositiveButton("Yes") { _, _ ->
-                        inspiringPeopleRepository.delete(inspiringPerson)
+                        inspiringPeopleRepository.deleteInspiringPerson(inspiringPerson)
                     }
-                    .setNegativeButton("No", DialogInterface.OnClickListener { dialog, _ ->
+                    .setNegativeButton("No") { dialog, _ ->
                         dialog.cancel()
-                    })
+                    }
                     .create()
                     .show()
         }

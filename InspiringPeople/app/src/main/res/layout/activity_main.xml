@@ -19,6 +19,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:fabSize="normal"
         android:layout_margin="16dp"
-        android:src="@drawable/icon_add"/>
+        android:src="@drawable/icon_add"
+        android:focusable="true"
+        android:tint="@color/white"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

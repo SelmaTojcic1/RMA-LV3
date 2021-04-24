@@ -1,23 +1,21 @@
 package com.example.inspiringpeople.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.inspiringpeople.database.InspiringPeopleDatabaseBuilder
-import com.example.inspiringpeople.database.InspiringPeopleRepository
-import com.example.inspiringpeople.database.InspiringPersonDao
+import com.example.inspiringpeople.data.InspiringPeopleDatabaseBuilder
+import com.example.inspiringpeople.data.InspiringPeopleRepository
 import com.example.inspiringpeople.databinding.FragmentInspiringPersonEditDetailsBinding
 import com.example.inspiringpeople.model.InspiringPerson
 
 class InspiringPersonEditDetailsFragment : Fragment() {
 
     lateinit var inspiringPersonEditDetailsBinding: FragmentInspiringPersonEditDetailsBinding
-    private val inspiringPeopleRepository: InspiringPersonDao by lazy {
-        InspiringPeopleDatabaseBuilder.getInstance().inspiringPersonDao()
-    }
+    private val inspiringPersonDao =
+            InspiringPeopleDatabaseBuilder.getInstance().inspiringPersonDao()
+    private val inspiringPeopleRepository = InspiringPeopleRepository(inspiringPersonDao)
 
     companion object{
         const val TAG = "EditDetails"
@@ -64,15 +62,23 @@ class InspiringPersonEditDetailsFragment : Fragment() {
             val secondQuote = inspiringPersonEditDetailsBinding
                     .etEditInspiringPersonSecondQuoteInput.text.toString()
 
-            if (name != "") inspiringPeopleRepository.changeName(inspiringPerson, name)
-            if (date != "") inspiringPeopleRepository.changeDate(inspiringPerson, date)
-            if (details != "") inspiringPeopleRepository.changeDetails(inspiringPerson, details)
-            if (imageUrl != "") inspiringPeopleRepository.changeImageUrl(inspiringPerson, imageUrl)
+            if (name != "") {
+                inspiringPeopleRepository.updateName(name, inspiringPerson.id)
+            }
+            if (date != "") {
+                inspiringPeopleRepository.updateDate(date, inspiringPerson.id)
+            }
+            if (details != "") {
+                inspiringPeopleRepository.updateDetails(details, inspiringPerson.id)
+            }
+            if (imageUrl != "") {
+                inspiringPeopleRepository.updateImageUrl(imageUrl, inspiringPerson.id)
+            }
             if (firstQuote != "") {
-                inspiringPerson.quotesList.add(firstQuote)
+                inspiringPeopleRepository.updateFirstQuote(firstQuote, inspiringPerson.id)
             }
             if (secondQuote != "") {
-                inspiringPerson.quotesList.add(secondQuote)
+                inspiringPeopleRepository.updateSecondQuote(secondQuote, inspiringPerson.id)
             }
         }
         fragmentManager?.popBackStack()

@@ -1,8 +1,8 @@
 package com.example.inspiringpeople.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.inspiringpeople.OnInspiringPersonEditDetailsSelectedListener
 import com.example.inspiringpeople.OnInspiringPersonSelectedListener
 import com.example.inspiringpeople.R
@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun createNewInspiringPerson() {
-        val newInspiringPersonIntent = Intent(this, NewInspiringPersonActivity::class.java)
+        val newInspiringPersonIntent =
+                Intent(this, NewInspiringPersonActivity::class.java)
         startActivity(newInspiringPersonIntent)
     }
 
@@ -55,4 +56,5 @@ class MainActivity : AppCompatActivity(),
                 .addToBackStack(null)
                 .commit()
     }
+
 }
