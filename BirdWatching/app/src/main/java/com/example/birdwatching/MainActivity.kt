@@ -1,28 +1,28 @@
 package com.example.birdwatching
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    var birdCounter: Int = 0
-    var backgroundColor: Int = R.color.white
+    private var birdCounter: Int = 0
+    private var backgroundColor: Int = R.color.white
 
     private val BIRD_COUNT_KEY = "count"
     private val BACKGROUND_COLOR_KEY = "color"
+    private val PREFS_FILENAME = "com.example.birdwatching"
+
+    private lateinit var sharedPrefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if(savedInstanceState != null) {
-            birdCounter = savedInstanceState.getInt(BIRD_COUNT_KEY)
-            if(birdCounter != 0 ) {
-                tv_bird_count.text = birdCounter.toString()
-            }
-            backgroundColor = savedInstanceState.getInt(BACKGROUND_COLOR_KEY)
-            tv_bird_count.setBackgroundResource(backgroundColor)
-        }
+        sharedPrefs = this.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
+        birdCounter = sharedPrefs.getInt(BIRD_COUNT_KEY, 0)
+        backgroundColor = sharedPrefs.getInt(BACKGROUND_COLOR_KEY, R.color.white)
 
         button_blue.setOnClickListener {
             countBird()
@@ -49,13 +49,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        outState.putInt(BIRD_COUNT_KEY, birdCounter)
-        outState.putInt(BACKGROUND_COLOR_KEY, backgroundColor)
-    }
-
     private fun countBird() {
         birdCounter++
         tv_bird_count.text = birdCounter.toString()
@@ -72,5 +65,13 @@ class MainActivity : AppCompatActivity() {
 
         backgroundColor = R.color.white
         tv_bird_count.setBackgroundResource(R.color.white)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        sharedPrefs.edit().also {
+            it.putInt(BIRD_COUNT_KEY, birdCounter)
+            it.putInt(BACKGROUND_COLOR_KEY, backgroundColor)
+        }.apply()
     }
 }
